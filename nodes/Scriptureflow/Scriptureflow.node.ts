@@ -1703,7 +1703,7 @@ export class Scriptureflow implements INodeType {
 						continue;
 					}
 
-					throw error;
+					throw new NodeApiError(this.getNode(), error as JsonObject, { itemIndex });
 				}
 
 				if (
@@ -1818,7 +1818,7 @@ export class Scriptureflow implements INodeType {
 						continue;
 					}
 
-					throw error;
+					throw new NodeApiError(this.getNode(), error as JsonObject, { itemIndex });
 				}
 
 				const json = buildOutput(response, request, outputFormat, includeRequestMetadata);

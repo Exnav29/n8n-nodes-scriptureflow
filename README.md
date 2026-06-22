@@ -1,68 +1,66 @@
 # n8n-nodes-scriptureflow
 
-This is an early local-development scaffold for an n8n community node that connects n8n workflows to the ScriptureFlow API.
+The planned n8n community node package for [ScriptureFlow](https://scriptureflow-api-preview.pages.dev), a structured Scripture API for developers, ministries, educators, and automation builders.
 
-## Local n8n Testing
+> **Status:** Early scaffold and exploratory local development. This package is not published to npm, has not been submitted to the n8n Creator Portal, and is not verified by n8n. Operations and UX may change before the first public release.
 
-For local Docker-based testing, deploy this package into the n8n sandbox at `D:\projects\n8n-local`. See `docs\local-n8n-testing.md`.
+## Public preview
 
-```powershell
-cd D:\projects\n8n-nodes-scriptureflow
-.\scripts\deploy-to-local-n8n.ps1
-```
+- Base URL: `https://scriptureflow-api-preview.pages.dev`
+- No API key is required during public preview.
+- Future optional API-key support may be added when ScriptureFlow monetization and API-key support are ready.
+- Discover exact, case-sensitive translation version keys from [`translations.json`](https://scriptureflow-api-preview.pages.dev/translations.json).
+- Some translations may be partial; check available books before assuming coverage.
 
-## Simple One-Node Usage
+## Scripture data rules
 
-For a normal passage lookup, use one `ScriptureFlow` node:
+- Do not silently substitute translations.
+- Do not invent or paraphrase Scripture text.
+- Preserve the returned reference and version attribution.
+- Keep generated commentary separate from Scripture text.
+- Surface ScriptureFlow API errors instead of filling in missing text.
 
-- `Book` > `List Books` shows the books available in a selected version.
-- `Passage` > `Get Verse` retrieves one verse.
-- `Passage` > `Get Verse Range` retrieves a same-chapter range.
-- `Random` > `Get Random Verse` retrieves one random verse from a selected version.
-- Use `Guided Selection` to pick Version, Book, Chapter, and Verse directly in the node.
+## Planned node surface
 
-You do not need `Translation` > `List Translations` just to choose one version.
+The roadmap includes Translation discovery/catalog operations and Scripture lookup, passage, Quick Verse, and generated Verse of the Day operations. They are not all guaranteed to be implemented or release-ready yet.
 
-`Passage` > `Get Verse` and `Passage` > `Get Verse Range` default to `Lookup Method` = `Static Index First`. This uses `/{version}/verses-index.json` and split-index parts when needed, avoiding Cloudflare Worker resource limits from the public `/api/verse` endpoint. `Lookup Method` = `API Endpoint` remains available when you specifically want to test the public API route.
-
-`Random` > `Get Random Verse` supports a fresh mode that selects a random verse inside the n8n node using `/{version}/chapters.json` and retrieves the selected verse from static ScriptureFlow JSON instead of `/api/verse`. It also supports a generated mode that reads ScriptureFlow's `/{version}/random.json` file, which may repeat until ScriptureFlow regenerates it.
-
-In the current preview deployment, advertised static chapter paths may return the preview HTML instead of JSON. The node handles that for local development by falling back to the static `/{version}/verses-index.json` catalog while still avoiding `/api/verse` for fresh random lookups.
-
-## Advanced Bulk Usage
-
-Use `Translation` > `List Translations` when you intentionally want many translations for discovery, comparison, audits, or bulk workflows. Downstream nodes execute once per returned item.
-
-For item-by-item workflows:
-
-- Set `Return Mode` to `One Item Per Translation`.
-- Use `Maximum Results` to limit output during testing.
-- In a later Passage node, set `Reference Input Mode` to `Manual / Expression`.
-- Use `{{ $json.version }}` as the Passage version value.
-
-Do not use `translation_name` as the version ID.
-
-## Book Catalog
-
-`Book` > `List Books` uses `/{version}/books.json` to list books available in a selected ScriptureFlow version. Some translations are partial, so this is useful for checking whether a translation has the book coverage you expect.
-
-Use `Return Mode` = `One Item Per Book` for chaining, or `Single Item With List` with `Include Summary` for review output.
-
-`Book` > `List Chapters` uses `/{version}/chapters.json` to list all chapters in a selected version, or only chapters for one selected book. It is useful for validating references, creating reading plans, and building dynamic Scripture workflows.
-
-Use `Return Mode` = `One Item Per Chapter` for chaining, or `Single Item With List` with `Include Summary` for review output. Use `Maximum Results` to limit chapter output during testing.
-
-## Known Issues / Revisit Before Publishing
-
-- Confirm public static chapter JSON paths. Fresh Random currently may fall back to `/{version}/verses-index.json` because preview chapter paths returned HTML during local testing.
-- Watch `/api/verse` Worker limits. Passage defaults to Static Index First because `/api/verse` can return Cloudflare 1102 resource-limit errors.
-- Review Fresh Random behavior for split-index translations.
-- Refine Manual / Expression error wording where it still sounds like Guided Selection.
-- Review output consistency before npm release.
-- Add example workflow JSON before public release.
-- Add GitHub Actions and npm provenance before n8n verification.
-- Confirm licensing and publication notes before public package promotion.
+See [the node roadmap](docs/scriptureflow-node-roadmap.md) for the planned operation list and release gates.
 
 ## Credentials
 
-No credentials are required for the current public ScriptureFlow preview API.
+No credentials are required for public preview mode. A future optional API key credential may be introduced later; any API key or token field will be stored as a sensitive/password field.
+
+## Development
+
+This repository uses the official n8n-node package structure and CLI commands.
+
+```bash
+npm install
+npm run lint
+npm run build
+npm run dev
+```
+
+`npm run dev` starts an interactive local n8n development session, normally at `http://localhost:5678`. It is intended for manual node discovery and workflow testing.
+
+The package has no runtime dependencies. `n8n-workflow` is declared as a peer dependency, and build/lint tooling is kept in development dependencies.
+
+## Publishing status
+
+Nothing in this bootstrap publishes the package. Do not run `npm publish` or `npm run release` until package ownership, operations, UX, documentation, tests, and GitHub Actions provenance are reviewed.
+
+See [publishing readiness](docs/publishing-readiness.md) for the remaining release and verification gates.
+
+## ScriptureFlow resources
+
+- [API preview](https://scriptureflow-api-preview.pages.dev)
+- [OpenAPI 3.1 contract](https://scriptureflow-api-preview.pages.dev/openapi.yaml)
+- [Swagger API Reference](https://scriptureflow-dev-docs.pages.dev/api-reference/)
+- [Postman collection](https://documenter.getpostman.com/view/1355224/2sBXwvJoj6)
+- [n8n examples](https://scriptureflow-dev-docs.pages.dev/integrations/n8n)
+- [Public code examples](https://scriptureflow-dev-docs.pages.dev/examples/example-requests.html)
+- [AI usage guide](https://scriptureflow-dev-docs.pages.dev/ai/using-scriptureflow-with-ai.html)
+
+## License
+
+[MIT](LICENSE)

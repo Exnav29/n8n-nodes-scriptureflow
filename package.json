@@ -4,10 +4,14 @@
   "description": "Use ScriptureFlow in n8n workflows to retrieve Bible translations, books, chapters, and verses from the ScriptureFlow API.",
   "license": "MIT",
   "keywords": ["n8n-community-node-package"],
-  "author": { "name": "Johnathan Lightfoot", "email": "Exnav29@gmail.com" },
+  "author": { "name": "Exnav29" },
   "repository": {
     "type": "git",
     "url": "https://github.com/Exnav29/n8n-nodes-scriptureflow.git"
+  },
+  "homepage": "https://github.com/Exnav29/n8n-nodes-scriptureflow#readme",
+  "bugs": {
+    "url": "https://github.com/Exnav29/n8n-nodes-scriptureflow/issues"
   },
   "scripts": {
     "build": "n8n-node build",
@@ -18,7 +22,11 @@
     "release": "n8n-node release",
     "prepublishOnly": "n8n-node prerelease"
   },
-  "files": ["dist"],
+  "files": [
+    "dist",
+    "docs/scriptureflow-node-roadmap.md",
+    "docs/publishing-readiness.md"
+  ],
   "n8n": {
     "n8nNodesApiVersion": 1,
     "strict": true,
@@ -26,8 +34,8 @@
     "nodes": ["dist/nodes/Scriptureflow/Scriptureflow.node.js"]
   },
   "devDependencies": {
-    "@n8n/node-cli": "*",
-    "eslint": "9.32.0",
+    "@n8n/node-cli": "0.35.1",
+    "eslint": "9.29.0",
     "prettier": "3.6.2",
     "release-it": "^19.0.4",
     "typescript": "5.9.2"
