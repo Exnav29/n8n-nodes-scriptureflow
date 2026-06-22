@@ -1,7 +1,7 @@
 {
   "name": "n8n-nodes-scriptureflow",
   "version": "0.1.0",
-  "description": "Use ScriptureFlow in n8n workflows to retrieve Bible translations, books, chapters, and verses from the ScriptureFlow API.",
+  "description": "Use ScriptureFlow in n8n workflows to discover translations and retrieve attributed Scripture from the public API.",
   "license": "MIT",
   "keywords": ["n8n-community-node-package"],
   "author": { "name": "Exnav29" },
@@ -31,7 +31,7 @@
     "n8nNodesApiVersion": 1,
     "strict": true,
     "credentials": [],
-    "nodes": ["dist/nodes/Scriptureflow/Scriptureflow.node.js"]
+    "nodes": ["dist/nodes/ScriptureFlow/Scriptureflow.node.js"]
   },
   "devDependencies": {
     "@n8n/node-cli": "0.35.1",

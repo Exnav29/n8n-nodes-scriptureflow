@@ -2,7 +2,7 @@
 
 The planned n8n community node package for [ScriptureFlow](https://scriptureflow-api-preview.pages.dev), a structured Scripture API for developers, ministries, educators, and automation builders.
 
-> **Status:** Early scaffold and exploratory local development. This package is not published to npm, has not been submitted to the n8n Creator Portal, and is not verified by n8n. Operations and UX may change before the first public release.
+> **Status:** Unpublished v1 development package. This package is not published to npm, has not been submitted to the n8n Creator Portal, and is not verified by n8n.
 
 ## Public preview
 
@@ -20,11 +20,19 @@ The planned n8n community node package for [ScriptureFlow](https://scriptureflow
 - Keep generated commentary separate from Scripture text.
 - Surface ScriptureFlow API errors instead of filling in missing text.
 
-## Planned node surface
+## V1 target operations
 
-The roadmap includes Translation discovery/catalog operations and Scripture lookup, passage, Quick Verse, and generated Verse of the Day operations. They are not all guaranteed to be implemented or release-ready yet.
+The narrowed v1 node contains only these operations:
 
-See [the node roadmap](docs/scriptureflow-node-roadmap.md) for the planned operation list and release gates.
+- **Translation > Get Many** retrieves translation keys and metadata from `/translations.json` without hiding catalog statuses.
+- **Book > Get Many** retrieves the books available for a Version Key and helps expose partial translation coverage.
+- **Scripture > Get Verse** retrieves one structured book/chapter/verse lookup directly from `/api/verse`.
+- **Scripture > Get Quick Verse** retrieves a verse selected at request time from `/api/quick-verse`; results may differ between executions.
+- **Scripture > Get Generated Verse of the Day** retrieves the generated static `/{version}/random.json` resource and remains distinct from Quick Verse.
+
+Raw ScriptureFlow JSON is returned by default. Catalog operations support conventional Return All/Limit controls. Scripture operations offer an optional `Simplify` boolean without inventing or paraphrasing Scripture text.
+
+See [the node roadmap](docs/scriptureflow-node-roadmap.md) for deferred operations and release gates.
 
 ## Credentials
 
@@ -47,7 +55,7 @@ The package has no runtime dependencies. `n8n-workflow` is declared as a peer de
 
 ## Publishing status
 
-Nothing in this bootstrap publishes the package. Do not run `npm publish` or `npm run release` until package ownership, operations, UX, documentation, tests, and GitHub Actions provenance are reviewed.
+Nothing in this repository currently publishes the package. No npm publish or Creator Portal submission has occurred. Do not run `npm publish` or `npm run release` until package ownership, UX, documentation, tests, and GitHub Actions provenance are reviewed.
 
 See [publishing readiness](docs/publishing-readiness.md) for the remaining release and verification gates.
 

@@ -1,8 +1,10 @@
 $ErrorActionPreference = 'Stop'
 
 $ProjectRoot = 'D:\projects\n8n-nodes-scriptureflow'
-$LocalN8nRoot = 'D:\projects\n8n-local'
-$TargetRoot = 'D:\projects\n8n-local\custom-nodes\n8n-nodes-scriptureflow'
+$LocalN8nRoot = 'D:\projects\n8n-local-dev'
+$CustomNodesRoot = 'D:\projects\n8n-local-dev\custom-nodes'
+$TargetRoot = 'D:\projects\n8n-local-dev\custom-nodes\ScriptureFlow'
+$LegacyTargetRoot = 'D:\projects\n8n-local-dev\custom-nodes\n8n-nodes-scriptureflow'
 
 function Write-Status {
     param(
@@ -37,26 +39,30 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Status 'Build passed.'
 
-$distPath = Join-Path $ProjectRoot 'dist'
-if (-not (Test-Path -LiteralPath $distPath -PathType Container)) {
-    throw "Build did not produce a dist folder: $distPath"
+$nodeDistPath = Join-Path $ProjectRoot 'dist\nodes\ScriptureFlow'
+if (-not (Test-Path -LiteralPath $nodeDistPath -PathType Container)) {
+    throw "Build did not produce the ScriptureFlow node folder: $nodeDistPath"
 }
 
-if (Test-Path -LiteralPath $TargetRoot) {
-    Write-Status "Removing existing local deployment folder: $TargetRoot"
-    Remove-Item -LiteralPath $TargetRoot -Recurse -Force
+foreach ($path in @($TargetRoot, $LegacyTargetRoot)) {
+    $resolvedParent = (Resolve-Path -LiteralPath (Split-Path -Parent $path)).ProviderPath
+    if ($resolvedParent -ine $CustomNodesRoot) {
+        throw "Refusing to remove a deployment outside the local custom-nodes folder: $path"
+    }
+
+    if (Test-Path -LiteralPath $path) {
+        Write-Status "Removing existing local deployment folder: $path"
+        Remove-Item -LiteralPath $path -Recurse -Force
+    }
 }
 
 Write-Status "Creating local deployment folder: $TargetRoot"
 New-Item -ItemType Directory -Force -Path $TargetRoot | Out-Null
 
-Write-Status 'Copying package.json...'
-Copy-Item -LiteralPath (Join-Path $ProjectRoot 'package.json') -Destination (Join-Path $TargetRoot 'package.json') -Force
+Write-Status 'Copying compiled node files and static assets into the custom-extension tree...'
+Copy-Item -Path (Join-Path $nodeDistPath '*') -Destination $TargetRoot -Recurse -Force
 
-Write-Status 'Copying dist output, including compiled node files and static assets...'
-Copy-Item -LiteralPath $distPath -Destination $TargetRoot -Recurse -Force
-
-Write-Status 'Local package files copied. node_modules was intentionally not copied.'
+Write-Status 'Local custom-extension files copied. node_modules was intentionally not copied.'
 
 Write-Status 'Restarting local n8n Docker container...'
 Push-Location $LocalN8nRoot
