@@ -1,6 +1,6 @@
 # ScriptureFlow n8n Node Release Checklist
 
-This checklist prepares a controlled npm release of `n8n-nodes-scriptureflow`. The package is currently unpublished, has not been submitted to the n8n Creator Portal, and is not verified by n8n.
+This checklist prepares controlled npm releases of `n8n-nodes-scriptureflow`. Version `0.1.0` is published, but the package has not been submitted to the n8n Creator Portal and is not verified by n8n.
 
 The verified-submission path must publish from the GitHub Actions workflow in `.github/workflows/publish.yml` with npm provenance. Do not use a local `npm publish` for that path.
 
@@ -17,24 +17,24 @@ The verified-submission path must publish from the GitHub Actions workflow in `.
 
 ### npm trusted publisher configuration
 
-- [ ] In the npm package settings, add a GitHub Actions trusted publisher with:
+- [x] The npm package settings have a GitHub Actions trusted publisher with:
   - Organization or user: `Exnav29`
   - Repository: `n8n-nodes-scriptureflow`
   - Workflow filename: `publish.yml`
   - Allowed action: `npm publish`
 - [ ] Do not enter `.github/workflows/publish.yml` in npm's workflow field; npm expects the filename only.
-- [ ] Confirm the trusted publisher configuration is active before pushing a release tag.
+- [ ] Confirm the trusted publisher configuration remains active before pushing a release tag.
 - [ ] Confirm the workflow uses a GitHub-hosted runner and has `id-token: write` and `contents: read` permissions.
 - [ ] Confirm the release runner provides Node.js 24 and npm 11.5.1 or later.
 
-Trusted publishing remains the preferred release path. Because the package is currently unpublished, npm package settings may not be available until the first version creates the registry record. If so, use the workflow's token bootstrap for the first publish only:
+### First publish bootstrap record
 
-- [ ] Create a short-lived, narrowly scoped npm automation/granular access token authorized only for the first package publish.
-- [ ] Store the token only as the GitHub Actions repository secret `NPM_TOKEN`; never commit or print its value.
-- [ ] After the first successful publish, revoke the npm token immediately and remove the `NPM_TOKEN` repository secret.
-- [ ] Configure the GitHub Actions trusted publisher in the new npm package settings before any later release.
+- [x] `n8n-nodes-scriptureflow@0.1.0` was published successfully from GitHub Actions with provenance.
+- [x] The temporary first-publish npm token was revoked.
+- [x] The GitHub Actions `NPM_TOKEN` repository secret was removed.
+- [x] npm trusted publishing was configured for `Exnav29/n8n-nodes-scriptureflow`, workflow `publish.yml`, with `npm publish` allowed.
 
-The workflow maps `NPM_TOKEN` to npm's `NODE_AUTH_TOKEN` environment variable. Once trusted publishing is configured, npm uses OIDC for authentication; the temporary secret should no longer exist. Do not publish locally.
+The token bootstrap has been removed from the workflow. Future releases authenticate only through npm trusted publishing/OIDC. Do not publish locally.
 
 ### Final validation
 
@@ -45,29 +45,28 @@ The workflow maps `NPM_TOKEN` to npm's `NODE_AUTH_TOKEN` environment variable. O
 - [ ] Run `npm pack --dry-run --ignore-scripts` and inspect every packaged file.
 - [ ] Confirm the five v1 actions and custom icon still pass local n8n verification.
 - [ ] Confirm there are no secrets, tokens, private URLs, credentials, runtime dependencies, or unexpected generated files.
-- [ ] Confirm the package version and release tag will match, for example package version `0.1.0` and tag `v0.1.0`.
+- [ ] Confirm the package version and release tag will match, for example package version `0.1.1` and tag `v0.1.1`.
 
 ## Publish
 
 - [ ] Merge all approved release-preparation changes to `main`.
-- [ ] Create an annotated release tag from the exact approved `main` commit, for example `git tag -a v0.1.0 -m "Release v0.1.0"`.
+- [ ] Create an annotated release tag from the exact approved `main` commit, for example `git tag -a v0.1.1 -m "Release v0.1.1"`.
 - [ ] Recheck the tag target before pushing it.
-- [ ] Push only the intended tag, for example `git push origin v0.1.0`.
+- [ ] Push only the intended tag, for example `git push origin v0.1.1`.
 - [ ] Watch the **Publish to npm with provenance** GitHub Actions run.
 - [ ] Confirm dependency installation, lint, build, and package preview pass before the publish step.
-- [ ] Confirm `npm publish --provenance --access public --ignore-scripts` succeeds through the approved first-publish token bootstrap or, after the package exists, trusted publishing/OIDC.
+- [ ] Confirm `npm publish --provenance --access public --ignore-scripts` succeeds through trusted publishing/OIDC.
 
 The workflow intentionally uses `--ignore-scripts` for the publish command because it already runs dependency installation, lint, build, and dry-run package inspection first. This bypasses the package's `prepublishOnly` local guard only in the controlled GitHub Actions path. The `prepublishOnly` script remains in `package.json`, so accidental local `npm publish` remains blocked.
 
-The first `v0.1.0` workflow attempt failed before publication and the registry remained unpublished. Before retrying, confirm the release tag and workflow run use a commit that contains this fix; rerunning the old tagged commit would still use the earlier publish command. Do not move, recreate, or push a tag without a separate deliberate release decision.
+The first `v0.1.0` workflow attempt failed before publication because `prepublishOnly` blocked it. After the workflow added `--ignore-scripts`, version `0.1.0` published successfully with provenance. The local `prepublishOnly` guard remains in place.
 
 Pushing a matching `v*.*.*` tag is the action that starts the publish workflow. Normal branches, pull requests, and ordinary pushes do not trigger it.
 
 ## After publishing
 
 - [ ] Open the npm package page and confirm the expected version, README, MIT license, repository link, keywords, files, and provenance attestation.
-- [ ] For the first publish, revoke the temporary npm token immediately and remove the `NPM_TOKEN` GitHub Actions secret.
-- [ ] Configure and confirm npm trusted publishing for all future releases.
+- [ ] Confirm npm trusted publishing remains configured for future releases.
 - [ ] Install the published package in a clean local/self-hosted n8n environment and repeat the five-operation smoke test.
 - [ ] Run `npx @n8n/scan-community-package n8n-nodes-scriptureflow` against the published package and review every finding.
 - [ ] Address scanner or package metadata findings before requesting verification.
