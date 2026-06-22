@@ -55,9 +55,9 @@ The package has no runtime dependencies. `n8n-workflow` is declared as a peer de
 
 ## Publishing status
 
-Nothing in this repository currently publishes the package. No npm publish or Creator Portal submission has occurred. Do not run `npm publish` or `npm run release` until package ownership, UX, documentation, tests, and GitHub Actions provenance are reviewed.
+The repository contains a tag-only GitHub Actions workflow prepared for future npm trusted publishing with provenance. It has not run. No npm publish or Creator Portal submission has occurred, and normal pushes or pull requests do not publish the package.
 
-See [publishing readiness](docs/publishing-readiness.md) for the remaining release and verification gates.
+Follow the [release checklist](docs/release-checklist.md) and review [publishing readiness](docs/publishing-readiness.md) before creating any release tag. Do not publish locally for the verified-submission path.
 
 ## ScriptureFlow resources
 
