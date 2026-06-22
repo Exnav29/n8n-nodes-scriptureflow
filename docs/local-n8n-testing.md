@@ -42,6 +42,37 @@ Create a new local test workflow. Do not modify an existing production workflow.
 
 Repeat the Scripture operations with Simplify enabled and confirm useful attribution fields remain. Also test an invalid Version Key and invalid verse; errors should explain what to correct and direct users to `https://scriptureflow-api-preview.pages.dev/translations.json` where relevant.
 
+## Manual local verification record
+
+Manual verification passed on 2026-06-22 in the local n8n editor at `http://localhost:5678`.
+
+### Editor and visual checks
+
+- The node appeared in the node picker as **ScriptureFlow**.
+- The custom blue-and-gold ScriptureFlow icon appeared in the node picker.
+- The custom ScriptureFlow icon appeared on the workflow canvas.
+- The editor exposed exactly five v1 actions:
+  - Book > Get Many
+  - Scripture > Get Generated Verse of the Day
+  - Scripture > Get Quick Verse
+  - Scripture > Get Verse
+  - Translation > Get Many
+
+### Operation checks
+
+- Translation > Get Many executed successfully and returned 50 translation items.
+- Book > Get Many executed successfully.
+- Scripture > Get Verse executed successfully with Version Key `en-lsv`, Book `John`, Chapter `3`, and Verse `16`.
+- The verse lookup returned raw ScriptureFlow JSON with `ok: true`, `type: "verse_lookup"`, `version: "en-lsv"`, `reference: "John 3:16"`, and attributed Scripture text supplied by the API. No Scripture text is copied into this verification record.
+
+### Error handling check
+
+Scripture > Get Verse was also tested with the invalid Version Key `en-lsb`, Book `John`, Chapter `3`, and Verse `16`.
+
+The node returned a clear `ScriptureFlow API request failed` error and directed the user to check the Version Key at `https://scriptureflow-api-preview.pages.dev/translations.json`. This confirms invalid input is surfaced with a useful correction path instead of crashing the node or supplying fallback Scripture text.
+
+This was local development verification only. The package remains unpublished, has not been submitted to the n8n Creator Portal, and is not verified by n8n.
+
 ## V1 behavior
 
 - Public preview requires no credentials.
@@ -63,4 +94,4 @@ If the node does not appear:
 4. Restart the local n8n container from `D:\projects\n8n-local-dev`.
 5. Check the container logs, then refresh the browser and search again.
 
-Local panel confirmation, npm development-tool audit findings, provenance publishing, npm publication, and Creator Portal submission remain release gates until explicitly completed.
+Local visual and workflow verification is recorded above. npm development-tool audit findings, provenance publishing, npm publication, package scanning, and Creator Portal submission remain release gates until explicitly completed.
