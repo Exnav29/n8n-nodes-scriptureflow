@@ -2,7 +2,7 @@
 
 ## Current state
 
-- Package status: early scaffold and exploratory local development
+- Package status: narrowed v1 development surface
 - npm status: not published
 - n8n verification status: not submitted and not verified
 - Credentials: not required for the public preview
@@ -12,9 +12,9 @@ No workflow in this repository currently publishes to npm. The `package-readines
 
 ## Required before publication
 
-- Resolve the keep/defer/remove decisions in the [v1 scope audit](v1-scope-audit.md).
+- Visually confirm the custom icon in the local n8n node picker and canvas.
 - Confirm package ownership and npm name availability.
-- Review all node operations and UX copy.
+- Review the narrowed node operations and UX copy after local testing.
 - Pass `npm run lint`, `npm run build`, and local `npm run dev` testing.
 - Pass the current n8n community package scanner.
 - Confirm package metadata and public repository URLs.
@@ -25,7 +25,7 @@ No workflow in this repository currently publishes to npm. The `package-readines
 - Publish a release from GitHub Actions, never from a local machine.
 - Submit through the n8n Creator Portal only after the public npm package is ready.
 
-## Explicit non-actions for this bootstrap
+## Explicit non-actions before release approval
 
 - Do not run `npm publish`.
 - Do not run `npm run release`.
@@ -41,3 +41,22 @@ No workflow in this repository currently publishes to npm. The `package-readines
 - `npm run dev`: TypeScript watch started with zero errors. The first-run n8n installation did not finish within the automated startup window, so confirming the node in the `localhost:5678` nodes panel remains a manual interactive check.
 - Community package scanner: deferred because the scanner resolves a package from npm and `n8n-nodes-scriptureflow` is intentionally not published yet.
 - npm audit: installation reported transitive development-tool findings that should be reassessed before release; no runtime dependencies were added.
+
+## V1 cleanup status
+
+- The exploratory chapters, range, static-index, split-index, fresh-random, guided-dropdown, formatted-output, metadata-wrapper, and custom error-item behavior has been removed from the v1 surface.
+- Translation Get Many, Book Get Many, Get Verse, Get Quick Verse, and Get Generated Verse of the Day remain.
+- The source folder is normalized to `ScriptureFlow`. The node files retain n8n's lint-required `Scriptureflow.node.*` naming while the UI display name remains `ScriptureFlow`; Linux CI must continue to validate the package path.
+- Local n8n runtime loading and workflow execution are confirmed; visual picker/canvas confirmation remains required.
+- GitHub Actions provenance publishing and Creator Portal submission remain deferred.
+
+## V1 cleanup validation record
+
+- `npm install`: passed; npm still reports 18 transitive development-tool findings (7 moderate and 11 high) for later review.
+- `npm run lint`: passed.
+- `npm run build`: passed.
+- `npm pack --dry-run --ignore-scripts`: passed with the normalized `dist/nodes/ScriptureFlow/Scriptureflow.node.js` manifest path.
+- Compiled execution smoke tests passed against all five public endpoints, including raw catalog output, attributed Scripture output, simplified Quick Verse output, and a clear invalid-Version-Key failure.
+- The local `n8n-local-dev` instance recognized the mounted `CUSTOM.scriptureflow` node and successfully executed an inactive smoke-test workflow containing all five v1 operations. No production or existing workflow was modified.
+- The custom SVG is built and deployed with an exact `file:scriptureflow.svg` reference. Visual picker/canvas appearance remains to be confirmed in the authenticated editor UI.
+- Registry lookup confirms `n8n-nodes-scriptureflow` remains unpublished.

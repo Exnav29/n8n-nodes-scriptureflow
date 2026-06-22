@@ -1,8 +1,8 @@
 # ScriptureFlow Node Roadmap
 
-This roadmap describes the intended n8n community-node surface. It is not a statement that every operation is implemented, stable, published, or verified. Existing exploratory code remains subject to review and change before an npm release.
+This roadmap separates the implemented v1 target from later operations. The package remains unpublished and unverified.
 
-See the [v1 scope audit](v1-scope-audit.md) for the concrete recommendation to narrow the exploratory implementation before release.
+The keep/defer/remove decisions from the [v1 scope audit](v1-scope-audit.md) were applied in the v1 cleanup.
 
 ## Phase 1 foundation
 
@@ -13,22 +13,26 @@ See the [v1 scope audit](v1-scope-audit.md) for the concrete recommendation to n
 - Preserve ScriptureFlow response attribution and errors.
 - Validate package metadata, lint, build, local development, and packaging.
 
-## Planned Translation operations
+## V1 target operations
 
-- List Translations
-- Get Public Catalog
-- Get Translation Metadata
-- List Books
-- List Chapters
-- Get Verse Index, including full arrays and split-index manifests
+- Translation > Get Many: `/translations.json`
+- Book > Get Many: `/{version}/books.json`
+- Scripture > Get Verse: `/api/verse`
+- Scripture > Get Quick Verse: `/api/quick-verse`
+- Scripture > Get Generated Verse of the Day: `/{version}/random.json`
 
-## Planned Scripture operations
+These operations use explicit Version Key and structured reference fields. They return raw ScriptureFlow JSON by default and do not use static-index traversal, generated fallback text, or custom response wrappers.
 
-- Get Verse
-- Get Passage
-- Lookup Reference
-- Get Quick Verse
-- Get Generated Verse of the Day
+## Deferred operations and behavior
+
+- Public catalog and translation metadata
+- List chapters
+- Get passage/range
+- Free-text reference lookup
+- Verse-index and split-index traversal
+- Guided chained dropdowns
+- Client-side random selection
+- Plain-text and formatted-citation output modes
 
 Quick Verse and generated Verse of the Day must remain separate operations because Quick Verse is selected at request time while `/{version}/random.json` is a generated translation resource.
 
@@ -52,4 +56,4 @@ Quick Verse and generated Verse of the Day must remain separate operations becau
 
 ## Release gates
 
-Before npm publication, review every existing operation against current n8n UX and verification guidance, complete local n8n testing, confirm no runtime dependencies, document all supported behavior, and publish only through an approved GitHub Actions provenance workflow.
+Before npm publication, complete local n8n panel and workflow testing, review outstanding npm audit findings, confirm no runtime dependencies, validate documentation, and publish only through an approved GitHub Actions provenance workflow. The npm package scanner remains deferred until a package exists in npm, and Creator Portal submission remains a later phase.
