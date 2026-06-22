@@ -12,6 +12,7 @@ No workflow in this repository currently publishes to npm. The `package-readines
 
 ## Required before publication
 
+- Resolve the keep/defer/remove decisions in the [v1 scope audit](v1-scope-audit.md).
 - Confirm package ownership and npm name availability.
 - Review all node operations and UX copy.
 - Pass `npm run lint`, `npm run build`, and local `npm run dev` testing.

@@ -2,6 +2,8 @@
 
 This roadmap describes the intended n8n community-node surface. It is not a statement that every operation is implemented, stable, published, or verified. Existing exploratory code remains subject to review and change before an npm release.
 
+See the [v1 scope audit](v1-scope-audit.md) for the concrete recommendation to narrow the exploratory implementation before release.
+
 ## Phase 1 foundation
 
 - Maintain the official n8n-node package structure.
