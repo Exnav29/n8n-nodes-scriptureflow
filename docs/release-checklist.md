@@ -55,7 +55,11 @@ The workflow maps `NPM_TOKEN` to npm's `NODE_AUTH_TOKEN` environment variable. O
 - [ ] Push only the intended tag, for example `git push origin v0.1.0`.
 - [ ] Watch the **Publish to npm with provenance** GitHub Actions run.
 - [ ] Confirm dependency installation, lint, build, and package preview pass before the publish step.
-- [ ] Confirm `npm publish --provenance --access public` succeeds through the approved first-publish token bootstrap or, after the package exists, trusted publishing/OIDC.
+- [ ] Confirm `npm publish --provenance --access public --ignore-scripts` succeeds through the approved first-publish token bootstrap or, after the package exists, trusted publishing/OIDC.
+
+The workflow intentionally uses `--ignore-scripts` for the publish command because it already runs dependency installation, lint, build, and dry-run package inspection first. This bypasses the package's `prepublishOnly` local guard only in the controlled GitHub Actions path. The `prepublishOnly` script remains in `package.json`, so accidental local `npm publish` remains blocked.
+
+The first `v0.1.0` workflow attempt failed before publication and the registry remained unpublished. Before retrying, confirm the release tag and workflow run use a commit that contains this fix; rerunning the old tagged commit would still use the earlier publish command. Do not move, recreate, or push a tag without a separate deliberate release decision.
 
 Pushing a matching `v*.*.*` tag is the action that starts the publish workflow. Normal branches, pull requests, and ordinary pushes do not trigger it.
 

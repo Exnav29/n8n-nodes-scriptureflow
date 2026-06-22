@@ -12,6 +12,8 @@ The tag-only `.github/workflows/publish.yml` workflow is prepared for a future n
 
 The `package-readiness.yml` GitHub Actions workflow remains validation-only: it installs, lints, builds, and previews package contents without publishing.
 
+The first tag workflow attempt stopped before publication because npm invoked `prepublishOnly` (`n8n-node prerelease`). The GitHub Actions publish command now uses `--ignore-scripts` after its explicit install, lint, build, and package-preview checks. The local `prepublishOnly` guard remains unchanged. Registry lookup after the failed attempt returned 404, confirming the package remained unpublished.
+
 ## Required before publication
 
 - Confirm package ownership and npm name availability.
