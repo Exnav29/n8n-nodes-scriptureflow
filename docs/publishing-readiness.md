@@ -8,7 +8,7 @@
 - Credentials: not required for the public preview
 - Runtime dependencies: none
 
-The tag-only `.github/workflows/publish.yml` workflow is prepared for a future npm trusted-publishing/provenance release. It has not run and nothing has been published. Normal pushes and pull requests do not trigger it. See the [release checklist](release-checklist.md) before creating any release tag.
+The tag-only `.github/workflows/publish.yml` workflow is prepared for a future npm provenance release. It supports a temporary `NPM_TOKEN` GitHub Actions secret for the first publish bootstrap; trusted publishing/OIDC remains preferred for every release after the npm package record exists. The workflow has not run and nothing has been published. Normal pushes and pull requests do not trigger it. See the [release checklist](release-checklist.md) before creating any release tag.
 
 The `package-readiness.yml` GitHub Actions workflow remains validation-only: it installs, lints, builds, and previews package contents without publishing.
 
@@ -21,7 +21,8 @@ The `package-readiness.yml` GitHub Actions workflow remains validation-only: it 
 - Confirm package metadata and public repository URLs.
 - Confirm MIT licensing and complete README documentation.
 - Confirm there are no runtime dependencies, credentials, secrets, or private URLs.
-- Configure npm trusted publishing for `Exnav29/n8n-nodes-scriptureflow` and workflow filename `publish.yml` without committing secrets.
+- For the first publish only, create a short-lived, narrowly scoped npm token as the GitHub Actions secret `NPM_TOKEN`, then revoke it immediately after success.
+- After the package exists, configure npm trusted publishing for `Exnav29/n8n-nodes-scriptureflow` and workflow filename `publish.yml`, then remove the temporary GitHub secret.
 - Publish a release from GitHub Actions, never from a local machine.
 - Submit through the n8n Creator Portal only after the public npm package is ready.
 

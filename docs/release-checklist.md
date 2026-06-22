@@ -27,7 +27,14 @@ The verified-submission path must publish from the GitHub Actions workflow in `.
 - [ ] Confirm the workflow uses a GitHub-hosted runner and has `id-token: write` and `contents: read` permissions.
 - [ ] Confirm the release runner provides Node.js 24 and npm 11.5.1 or later.
 
-The package is currently unpublished. If npm does not allow trusted-publisher configuration until an initial package version exists, stop before tagging. Handle any one-time bootstrap publish in a separate reviewed change using GitHub Actions with provenance and a short-lived, narrowly scoped npm credential. Do not add `NPM_TOKEN` to the committed trusted-publishing workflow. After a bootstrap publish, configure the trusted publisher and remove any temporary credential before future releases.
+Trusted publishing remains the preferred release path. Because the package is currently unpublished, npm package settings may not be available until the first version creates the registry record. If so, use the workflow's token bootstrap for the first publish only:
+
+- [ ] Create a short-lived, narrowly scoped npm automation/granular access token authorized only for the first package publish.
+- [ ] Store the token only as the GitHub Actions repository secret `NPM_TOKEN`; never commit or print its value.
+- [ ] After the first successful publish, revoke the npm token immediately and remove the `NPM_TOKEN` repository secret.
+- [ ] Configure the GitHub Actions trusted publisher in the new npm package settings before any later release.
+
+The workflow maps `NPM_TOKEN` to npm's `NODE_AUTH_TOKEN` environment variable. Once trusted publishing is configured, npm uses OIDC for authentication; the temporary secret should no longer exist. Do not publish locally.
 
 ### Final validation
 
@@ -48,13 +55,15 @@ The package is currently unpublished. If npm does not allow trusted-publisher co
 - [ ] Push only the intended tag, for example `git push origin v0.1.0`.
 - [ ] Watch the **Publish to npm with provenance** GitHub Actions run.
 - [ ] Confirm dependency installation, lint, build, and package preview pass before the publish step.
-- [ ] Confirm `npm publish --provenance --access public` succeeds through trusted publishing/OIDC.
+- [ ] Confirm `npm publish --provenance --access public` succeeds through the approved first-publish token bootstrap or, after the package exists, trusted publishing/OIDC.
 
 Pushing a matching `v*.*.*` tag is the action that starts the publish workflow. Normal branches, pull requests, and ordinary pushes do not trigger it.
 
 ## After publishing
 
 - [ ] Open the npm package page and confirm the expected version, README, MIT license, repository link, keywords, files, and provenance attestation.
+- [ ] For the first publish, revoke the temporary npm token immediately and remove the `NPM_TOKEN` GitHub Actions secret.
+- [ ] Configure and confirm npm trusted publishing for all future releases.
 - [ ] Install the published package in a clean local/self-hosted n8n environment and repeat the five-operation smoke test.
 - [ ] Run `npx @n8n/scan-community-package n8n-nodes-scriptureflow` against the published package and review every finding.
 - [ ] Address scanner or package metadata findings before requesting verification.
