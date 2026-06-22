@@ -8,7 +8,9 @@
 - Credentials: not required for the public preview
 - Runtime dependencies: none
 
-No workflow in this repository currently publishes to npm. The `package-readiness.yml` GitHub Actions workflow only installs, lints, builds, and previews package contents.
+The tag-only `.github/workflows/publish.yml` workflow is prepared for a future npm trusted-publishing/provenance release. It has not run and nothing has been published. Normal pushes and pull requests do not trigger it. See the [release checklist](release-checklist.md) before creating any release tag.
+
+The `package-readiness.yml` GitHub Actions workflow remains validation-only: it installs, lints, builds, and previews package contents without publishing.
 
 ## Required before publication
 
@@ -19,8 +21,7 @@ No workflow in this repository currently publishes to npm. The `package-readines
 - Confirm package metadata and public repository URLs.
 - Confirm MIT licensing and complete README documentation.
 - Confirm there are no runtime dependencies, credentials, secrets, or private URLs.
-- Add an official GitHub Actions npm publishing workflow with provenance in a separate reviewed change.
-- Configure npm trusted publishing or narrowly scoped publishing credentials without committing secrets.
+- Configure npm trusted publishing for `Exnav29/n8n-nodes-scriptureflow` and workflow filename `publish.yml` without committing secrets.
 - Publish a release from GitHub Actions, never from a local machine.
 - Submit through the n8n Creator Portal only after the public npm package is ready.
 
@@ -28,7 +29,7 @@ No workflow in this repository currently publishes to npm. The `package-readines
 
 - Do not run `npm publish`.
 - Do not run `npm run release`.
-- Do not create or push release tags.
+- Do not create or push release tags until the [release checklist](release-checklist.md) is approved and complete.
 - Do not configure npm credentials.
 - Do not submit to the n8n Creator Portal.
 
@@ -47,7 +48,7 @@ No workflow in this repository currently publishes to npm. The `package-readines
 - Translation Get Many, Book Get Many, Get Verse, Get Quick Verse, and Get Generated Verse of the Day remain.
 - The source folder is normalized to `ScriptureFlow`. The node files retain n8n's lint-required `Scriptureflow.node.*` naming while the UI display name remains `ScriptureFlow`; Linux CI must continue to validate the package path.
 - Local n8n runtime loading, workflow execution, node-picker discovery, and picker/canvas icon appearance are confirmed.
-- GitHub Actions provenance publishing and Creator Portal submission remain deferred.
+- The GitHub Actions provenance workflow is prepared but has not executed. npm publication and Creator Portal submission remain deferred.
 
 ## V1 cleanup validation record
 
@@ -70,4 +71,4 @@ Manual local verification passed on 2026-06-22 at `http://localhost:5678`.
 - Get Verse returned raw attributed ScriptureFlow JSON for `en-lsv`, John 3:16, including `ok: true`, `type: "verse_lookup"`, `version: "en-lsv"`, and `reference: "John 3:16"`.
 - An invalid `en-lsb` Version Key produced `ScriptureFlow API request failed` and directed the user to `https://scriptureflow-api-preview.pages.dev/translations.json`.
 
-These results cover local development only. npm publication, the npm community package scanner, GitHub Actions provenance publishing, n8n verification, and Creator Portal submission remain incomplete or deferred as described above. The 18 transitive development-tool audit findings remain a release review item.
+These results cover local development only. npm publication, the npm community package scanner, n8n verification, and Creator Portal submission remain incomplete or deferred as described above. The provenance workflow is prepared but unexecuted, and the 18 transitive development-tool audit findings remain a release review item.

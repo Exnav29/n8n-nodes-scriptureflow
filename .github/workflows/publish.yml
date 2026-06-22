@@ -1,0 +1,55 @@
+name: Publish to npm with provenance
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: npm-publish-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Validate and publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+
+      - name: Verify npm trusted publishing support
+        shell: bash
+        run: |
+          npm_version="$(npm --version)"
+          echo "npm ${npm_version}"
+          node -e "const [major, minor, patch] = process.argv[1].split('.').map(Number); if (major < 11 || (major === 11 && (minor < 5 || (minor === 5 && patch < 1)))) { throw new Error('npm 11.5.1 or later is required for trusted publishing'); }" "${npm_version}"
+
+      - name: Verify release tag matches package version
+        run: node -e "const expected = 'v' + require('./package.json').version; if (process.env.GITHUB_REF_NAME !== expected) throw new Error('Release tag ' + process.env.GITHUB_REF_NAME + ' does not match package version ' + expected);"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Preview npm package contents
+        run: npm pack --dry-run --ignore-scripts
+
+      - name: Publish package with provenance
+        run: npm publish --provenance --access public

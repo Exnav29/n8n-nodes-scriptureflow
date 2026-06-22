@@ -3,7 +3,14 @@
   "version": "0.1.0",
   "description": "Use ScriptureFlow in n8n workflows to discover translations and retrieve attributed Scripture from the public API.",
   "license": "MIT",
-  "keywords": ["n8n-community-node-package"],
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "scriptureflow",
+    "bible",
+    "scripture",
+    "automation"
+  ],
   "author": { "name": "Exnav29" },
   "repository": {
     "type": "git",
