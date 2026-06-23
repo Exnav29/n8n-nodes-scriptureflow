@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-scriptureflow",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Use ScriptureFlow in n8n workflows to discover translations and retrieve attributed Scripture from the public API.",
   "license": "MIT",
   "keywords": [
@@ -11,7 +11,9 @@
     "scripture",
     "automation"
   ],
-  "author": { "name": "Exnav29" },
+  "author": {
+    "name": "Exnav29"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Exnav29/n8n-nodes-scriptureflow.git"
@@ -38,7 +40,9 @@
     "n8nNodesApiVersion": 1,
     "strict": true,
     "credentials": [],
-    "nodes": ["dist/nodes/ScriptureFlow/Scriptureflow.node.js"]
+    "nodes": [
+      "dist/nodes/ScriptureFlow/Scriptureflow.node.js"
+    ]
   },
   "devDependencies": {
     "@n8n/node-cli": "0.35.1",
@@ -47,5 +51,7 @@
     "release-it": "^19.0.4",
     "typescript": "5.9.2"
   },
-  "peerDependencies": { "n8n-workflow": "*" }
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  }
 }
