@@ -45,14 +45,23 @@ jobs:
         run: |
           node -e "const p = require('./package.json'); console.log(JSON.stringify({ name: p.name, version: p.version, license: p.license, repository: p.repository, hasDependencies: Boolean(p.dependencies), keywords: p.keywords }, null, 2)); if (p.name !== 'n8n-nodes-scriptureflow') throw new Error('Unexpected package name'); if (!p.version) throw new Error('Missing package version'); if (p.license !== 'MIT') throw new Error('Expected MIT license'); if (p.repository?.url !== 'git+https://github.com/Exnav29/n8n-nodes-scriptureflow.git') throw new Error('Unexpected repository URL'); if (p.dependencies) throw new Error('Runtime dependencies are not expected'); if (!p.keywords?.includes('n8n-community-node-package')) throw new Error('Missing n8n community package keyword');"
 
-      - name: Verify trusted publishing token path
+      - name: Inspect trusted publishing token environment
         shell: bash
         run: |
-          if [ -n "${NPM_TOKEN:-}" ] || [ -n "${NODE_AUTH_TOKEN:-}" ]; then
-            echo "::error::Legacy npm token environment variables are set. This release workflow must use GitHub Actions OIDC trusted publishing only."
+          if [ -n "${NPM_TOKEN:-}" ]; then
+            echo "NPM_TOKEN present: yes"
+            echo "::error::NPM_TOKEN is set. This release workflow must not use a legacy npm token; it must rely on GitHub Actions OIDC trusted publishing only."
             exit 1
           fi
-          echo "No legacy npm token environment variables are set. npm publish will rely on GitHub Actions OIDC."
+          echo "NPM_TOKEN present: no"
+
+          if [ -n "${NODE_AUTH_TOKEN:-}" ]; then
+            echo "NODE_AUTH_TOKEN present: yes"
+          else
+            echo "NODE_AUTH_TOKEN present: no"
+          fi
+
+          echo "No explicit legacy npm token path is configured. npm publish will rely on GitHub Actions OIDC."
 
       - name: Inspect npm registry package state
         run: |
