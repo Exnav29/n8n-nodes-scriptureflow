@@ -11,13 +11,13 @@ The verified-submission path must publish from the GitHub Actions workflow in `.
 - [ ] Confirm the publishing npm account is active, has a verified email address, uses two-factor authentication, and is authorized to publish the package.
 - [ ] Confirm the package name remains `n8n-nodes-scriptureflow` and check its current registry status with `npm view n8n-nodes-scriptureflow`.
 - [ ] Confirm the version in `package.json` is the intended release version and does not already exist in npm.
-- [ ] Confirm the public repository URL in `package.json` is exactly `https://github.com/Exnav29/n8n-nodes-scriptureflow.git`.
+- [ ] Confirm the public repository URL in `package.json` is exactly `git+https://github.com/Exnav29/n8n-nodes-scriptureflow.git`.
 - [ ] Confirm the package is MIT licensed, has no runtime dependencies, includes `n8n-community-node-package`, and documents the supported operations.
 - [ ] Review the outstanding npm audit findings in development tooling and decide whether release-blocking remediation is needed.
 
 ### npm trusted publisher configuration
 
-- [x] The npm package settings have a GitHub Actions trusted publisher with:
+- [ ] Before each release, confirm the npm package settings have a GitHub Actions trusted publisher with:
   - Organization or user: `Exnav29`
   - Repository: `n8n-nodes-scriptureflow`
   - Workflow filename: `publish.yml`
@@ -26,6 +26,7 @@ The verified-submission path must publish from the GitHub Actions workflow in `.
 - [ ] Confirm the trusted publisher configuration remains active before pushing a release tag.
 - [ ] Confirm the workflow uses a GitHub-hosted runner and has `id-token: write` and `contents: read` permissions.
 - [ ] Confirm the release runner provides Node.js 24 and npm 11.5.1 or later.
+- [ ] Confirm the package owner has permission to publish `n8n-nodes-scriptureflow`.
 
 ### First publish bootstrap record
 
@@ -35,6 +36,12 @@ The verified-submission path must publish from the GitHub Actions workflow in `.
 - [x] npm trusted publishing was configured for `Exnav29/n8n-nodes-scriptureflow`, workflow `publish.yml`, with `npm publish` allowed.
 
 The token bootstrap has been removed from the workflow. Future releases authenticate only through npm trusted publishing/OIDC. Do not publish locally.
+
+### 0.1.1 trusted publishing failure record
+
+The `v0.1.1` GitHub Actions publish attempt reached `npm publish --provenance --access public --ignore-scripts`, built the tarball, and signed provenance, but npm rejected the final package write with an `E404` permission/not-found response for `n8n-nodes-scriptureflow@0.1.1`.
+
+Repository-side checks show the workflow uses a GitHub-hosted runner, has `contents: read` and `id-token: write`, uses Node.js 24, verifies npm 11.5.1 or later, does not use `NPM_TOKEN`, and publishes the unchanged package name `n8n-nodes-scriptureflow` at version `0.1.1`. If this happens again after the workflow diagnostics pass, verify the npm package Trusted Publisher settings and package-owner publishing permissions in npm.
 
 ### Final validation
 

@@ -4,7 +4,7 @@ This repository is prepared for n8n Creator Portal submission review, but it has
 
 ## Package status
 
-- Package: `n8n-nodes-scriptureflow@0.1.0`
+- Package: `n8n-nodes-scriptureflow@0.1.1` in the repository; npm still shows `0.1.0` until the `0.1.1` trusted publishing retry succeeds
 - Public repository: `https://github.com/Exnav29/n8n-nodes-scriptureflow.git`
 - License: MIT
 - Runtime dependencies: none
