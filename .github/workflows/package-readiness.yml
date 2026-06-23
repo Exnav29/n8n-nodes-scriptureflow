@@ -9,6 +9,7 @@ on:
       - package-lock.json
       - nodes/**
       - docs/**
+      - .github/workflows/publish.yml
       - .github/workflows/package-readiness.yml
 
 permissions:

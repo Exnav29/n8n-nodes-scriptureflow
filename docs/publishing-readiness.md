@@ -3,7 +3,7 @@
 ## Current state
 
 - Package status: narrowed v1 development surface
-- npm status: `n8n-nodes-scriptureflow@0.1.0` published
+- npm status: `n8n-nodes-scriptureflow@0.1.0` published; `0.1.1` attempted from GitHub Actions but was rejected by npm with `E404`
 - n8n verification status: not submitted and not verified
 - Credentials: not required for the public preview
 - Runtime dependencies: none
@@ -13,6 +13,8 @@ The tag-only `.github/workflows/publish.yml` workflow published `0.1.0` successf
 The `package-readiness.yml` GitHub Actions workflow remains validation-only: it installs, lints, builds, and previews package contents without publishing.
 
 The first tag workflow attempt stopped before publication because npm invoked `prepublishOnly` (`n8n-node prerelease`). The GitHub Actions publish command now uses `--ignore-scripts` after its explicit install, lint, build, and package-preview checks. The local `prepublishOnly` guard remains unchanged. A later workflow run published `0.1.0` successfully.
+
+The `v0.1.1` trusted publishing attempt reached the final `npm publish --provenance --access public --ignore-scripts` step, generated the tarball, and signed provenance, then npm rejected the package write with `E404` for `n8n-nodes-scriptureflow@0.1.1`. The repository keeps version `0.1.1`; do not bump to `0.1.2` unless `0.1.1` is confirmed published.
 
 ## Required before the next publication
 
@@ -24,6 +26,7 @@ The first tag workflow attempt stopped before publication because npm invoked `p
 - Confirm MIT licensing and complete README documentation.
 - Confirm there are no runtime dependencies, credentials, secrets, or private URLs.
 - Confirm npm trusted publishing remains configured for `Exnav29/n8n-nodes-scriptureflow` and workflow filename `publish.yml`.
+- Confirm the npm Trusted Publisher allowed action includes `npm publish` and the npm package owner has permission to publish `n8n-nodes-scriptureflow`.
 - Publish a release from GitHub Actions, never from a local machine.
 - Submit through the n8n Creator Portal only after the public npm package is ready.
 

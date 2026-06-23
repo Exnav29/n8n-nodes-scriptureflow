@@ -33,11 +33,31 @@ jobs:
         shell: bash
         run: |
           npm_version="$(npm --version)"
+          node --version
           echo "npm ${npm_version}"
+          echo "registry $(npm config get registry)"
           node -e "const [major, minor, patch] = process.argv[1].split('.').map(Number); if (major < 11 || (major === 11 && (minor < 5 || (minor === 5 && patch < 1)))) { throw new Error('npm 11.5.1 or later is required for trusted publishing'); }" "${npm_version}"
 
       - name: Verify release tag matches package version
         run: node -e "const expected = 'v' + require('./package.json').version; if (process.env.GITHUB_REF_NAME !== expected) throw new Error('Release tag ' + process.env.GITHUB_REF_NAME + ' does not match package version ' + expected);"
+
+      - name: Verify package metadata for trusted publishing
+        run: |
+          node -e "const p = require('./package.json'); console.log(JSON.stringify({ name: p.name, version: p.version, license: p.license, repository: p.repository, hasDependencies: Boolean(p.dependencies), keywords: p.keywords }, null, 2)); if (p.name !== 'n8n-nodes-scriptureflow') throw new Error('Unexpected package name'); if (!p.version) throw new Error('Missing package version'); if (p.license !== 'MIT') throw new Error('Expected MIT license'); if (p.repository?.url !== 'git+https://github.com/Exnav29/n8n-nodes-scriptureflow.git') throw new Error('Unexpected repository URL'); if (p.dependencies) throw new Error('Runtime dependencies are not expected'); if (!p.keywords?.includes('n8n-community-node-package')) throw new Error('Missing n8n community package keyword');"
+
+      - name: Verify trusted publishing token path
+        shell: bash
+        run: |
+          if [ -n "${NPM_TOKEN:-}" ] || [ -n "${NODE_AUTH_TOKEN:-}" ]; then
+            echo "::error::Legacy npm token environment variables are set. This release workflow must use GitHub Actions OIDC trusted publishing only."
+            exit 1
+          fi
+          echo "No legacy npm token environment variables are set. npm publish will rely on GitHub Actions OIDC."
+
+      - name: Inspect npm registry package state
+        run: |
+          npm view n8n-nodes-scriptureflow version
+          npm view n8n-nodes-scriptureflow versions --json
 
       - name: Install dependencies
         run: npm ci
