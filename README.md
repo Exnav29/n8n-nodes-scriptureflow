@@ -1,8 +1,8 @@
 # n8n-nodes-scriptureflow
 
-The planned n8n community node package for [ScriptureFlow](https://scriptureflow-api-preview.pages.dev), a structured Scripture API for developers, ministries, educators, and automation builders.
+An n8n community node package for [ScriptureFlow](https://scriptureflow-api-preview.pages.dev), a structured Scripture API for developers, ministries, educators, and automation builders.
 
-> **Status:** Version `0.1.0` is published to npm. This package has not been submitted to the n8n Creator Portal and is not verified by n8n.
+> **Status:** Version `0.1.0` is published to npm. This package has not been approved through the n8n Creator Portal and is not verified by n8n.
 
 ## Public preview
 
@@ -20,9 +20,27 @@ The planned n8n community node package for [ScriptureFlow](https://scriptureflow
 - Keep generated commentary separate from Scripture text.
 - Surface ScriptureFlow API errors instead of filling in missing text.
 
-## V1 target operations
+## Installation
 
-The narrowed v1 node contains only these operations:
+Install `n8n-nodes-scriptureflow` as a community node package in n8n.
+
+In n8n, open **Settings > Community nodes**, choose **Install**, enter:
+
+```text
+n8n-nodes-scriptureflow
+```
+
+Then confirm the installation and search for **ScriptureFlow** in the node picker.
+
+For self-hosted npm-based installations, install the package in the n8n custom nodes location supported by your deployment, then restart n8n:
+
+```bash
+npm install n8n-nodes-scriptureflow
+```
+
+## Supported operations
+
+Version `0.1.0` contains these operations:
 
 - **Translation > Get Many** retrieves translation keys and metadata from `/translations.json` without hiding catalog statuses.
 - **Book > Get Many** retrieves the books available for a Version Key and helps expose partial translation coverage.
@@ -33,6 +51,24 @@ The narrowed v1 node contains only these operations:
 Raw ScriptureFlow JSON is returned by default. Catalog operations support conventional Return All/Limit controls. Scripture operations offer an optional `Simplify` boolean without inventing or paraphrasing Scripture text.
 
 See [the node roadmap](docs/scriptureflow-node-roadmap.md) for deferred operations and release gates.
+
+## Usage examples
+
+### List available translations
+
+1. Add the **ScriptureFlow** node to a workflow.
+2. Set **Resource** to **Translation**.
+3. Set **Operation** to **Get Many**.
+4. Leave **Return All** enabled to list the available translation keys and metadata.
+
+### Retrieve John 3:16 from en-lsv
+
+1. Add the **ScriptureFlow** node to a workflow.
+2. Set **Resource** to **Scripture**.
+3. Set **Operation** to **Get Verse**.
+4. Set **Version Key** to `en-lsv`.
+5. Set **Book** to `John`, **Chapter** to `3`, and **Verse** to `16`.
+6. Execute the node to retrieve the API-provided ScriptureFlow response with reference and version attribution.
 
 ## Credentials
 
