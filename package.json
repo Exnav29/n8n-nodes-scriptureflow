@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-scriptureflow",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Use ScriptureFlow in n8n workflows to discover translations and retrieve attributed Scripture from the public API.",
   "license": "MIT",
   "keywords": [
@@ -12,7 +12,9 @@
     "automation"
   ],
   "author": {
-    "name": "Exnav29"
+    "name": "Johnathan Lightfoot",
+    "email": "johnathan@bulletproofautomations.com",
+    "url": "https://github.com/Exnav29/n8n-nodes-scriptureflow"
   },
   "repository": {
     "type": "git",
