@@ -19,7 +19,7 @@ The first tag workflow attempt stopped before publication because npm invoked `p
 - Confirm package ownership and npm name availability.
 - Review the narrowed node operations and UX copy after local testing.
 - Pass `npm run lint`, `npm run build`, and local `npm run dev` testing.
-- Run the current n8n community package scanner against the published package.
+- Rerun the current n8n community package scanner against the next published package.
 - Confirm package metadata and public repository URLs.
 - Confirm MIT licensing and complete README documentation.
 - Confirm there are no runtime dependencies, credentials, secrets, or private URLs.
@@ -41,7 +41,7 @@ The first tag workflow attempt stopped before publication because npm invoked `p
 - `npm run lint`: passed.
 - `npm run build`: passed.
 - `npm run dev`: TypeScript watch started with zero errors. The first-run n8n installation did not finish within the automated startup window, so confirming the node in the `localhost:5678` nodes panel remains a manual interactive check.
-- Community package scanner: not yet run; the published package is now available for scanning.
+- Community package scanner: passed for `n8n-nodes-scriptureflow@0.1.0`. The run emitted a Node `DEP0190` deprecation warning, but the scanner reported that the package passed all security checks.
 - npm audit: installation reported transitive development-tool findings that should be reassessed before release; no runtime dependencies were added.
 
 ## V1 cleanup status
@@ -60,6 +60,7 @@ The first tag workflow attempt stopped before publication because npm invoked `p
 - `npm pack --dry-run --ignore-scripts`: passed with the normalized `dist/nodes/ScriptureFlow/Scriptureflow.node.js` manifest path.
 - Compiled execution smoke tests passed against all five public endpoints, including raw catalog output, attributed Scripture output, simplified Quick Verse output, and a clear invalid-Version-Key failure.
 - The local `n8n-local-dev` instance recognized the mounted `CUSTOM.scriptureflow` node and successfully executed an inactive smoke-test workflow containing all five v1 operations. No production or existing workflow was modified.
+- Clean n8n install and five-operation smoke testing passed for the published package.
 - The custom SVG is built and deployed with an exact `file:scriptureflow.svg` reference. Its blue-and-gold branding was manually confirmed in both the authenticated node picker and workflow canvas.
 - Registry lookup confirms `n8n-nodes-scriptureflow@0.1.0` is published with the `latest` dist-tag.
 
@@ -73,4 +74,4 @@ Manual local verification passed on 2026-06-22 at `http://localhost:5678`.
 - Get Verse returned raw attributed ScriptureFlow JSON for `en-lsv`, John 3:16, including `ok: true`, `type: "verse_lookup"`, `version: "en-lsv"`, and `reference: "John 3:16"`.
 - An invalid `en-lsb` Version Key produced `ScriptureFlow API request failed` and directed the user to `https://scriptureflow-api-preview.pages.dev/translations.json`.
 
-These results cover local development only. npm publication of `0.1.0` is complete; the npm community package scanner, n8n verification, and Creator Portal submission remain incomplete or deferred as described above. Future publishing uses trusted publishing/OIDC, and the 18 transitive development-tool audit findings remain a release review item.
+These results cover local development and clean-install smoke testing. npm publication of `0.1.0` is complete, and the npm community package scanner passed. n8n verification and Creator Portal submission remain incomplete or deferred as described above. Future publishing uses trusted publishing/OIDC, and the 18 transitive development-tool audit findings remain a release review item.
