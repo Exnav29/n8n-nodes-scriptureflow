@@ -2,7 +2,7 @@
 
 An n8n community node package for [ScriptureFlow](https://scriptureflow-api-preview.pages.dev), a structured Scripture API for developers, ministries, educators, and automation builders.
 
-> **Status:** Version `0.1.0` is published to npm. This package has not been approved through the n8n Creator Portal and is not verified by n8n.
+> **Status:** The package is published to npm. Version `0.1.1` is the current npm release, and `0.1.2` is the prepared Creator Portal metadata release. This package has not been approved through the n8n Creator Portal and is not verified by n8n.
 
 ## Public preview
 
@@ -40,7 +40,7 @@ npm install n8n-nodes-scriptureflow
 
 ## Supported operations
 
-Version `0.1.0` contains these operations:
+The current package contains these operations:
 
 - **Translation > Get Many** retrieves translation keys and metadata from `/translations.json` without hiding catalog statuses.
 - **Book > Get Many** retrieves the books available for a Version Key and helps expose partial translation coverage.
@@ -91,7 +91,7 @@ The package has no runtime dependencies. `n8n-workflow` is declared as a peer de
 
 ## Publishing status
 
-Version `0.1.0` was published from the tag-only GitHub Actions workflow with provenance. Future releases use npm trusted publishing/OIDC; normal pushes and pull requests do not publish the package. No Creator Portal submission has occurred.
+Version `0.1.1` is published to npm with provenance, and the n8n community package scanner passed. Version `0.1.2` is prepared to add npm author email metadata for n8n Creator Portal submission. Future releases use npm trusted publishing/OIDC; normal pushes and pull requests do not publish the package. No Creator Portal approval has occurred.
 
 Follow the [release checklist](docs/release-checklist.md) and review [publishing readiness](docs/publishing-readiness.md) before creating any release tag. Do not publish locally for the verified-submission path.
 

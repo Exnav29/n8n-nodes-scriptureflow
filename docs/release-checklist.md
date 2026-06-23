@@ -1,6 +1,6 @@
 # ScriptureFlow n8n Node Release Checklist
 
-This checklist prepares controlled npm releases of `n8n-nodes-scriptureflow`. Version `0.1.0` is published, but the package has not been submitted to the n8n Creator Portal and is not verified by n8n.
+This checklist prepares controlled npm releases of `n8n-nodes-scriptureflow`. Version `0.1.1` is published, and version `0.1.2` is prepared to add npm author email metadata for n8n Creator Portal submission. The package has not been approved through the n8n Creator Portal and is not verified by n8n.
 
 The verified-submission path must publish from the GitHub Actions workflow in `.github/workflows/publish.yml` with npm provenance. Do not use a local `npm publish` for that path.
 
@@ -12,6 +12,7 @@ The verified-submission path must publish from the GitHub Actions workflow in `.
 - [ ] Confirm the package name remains `n8n-nodes-scriptureflow` and check its current registry status with `npm view n8n-nodes-scriptureflow`.
 - [ ] Confirm the version in `package.json` is the intended release version and does not already exist in npm.
 - [ ] Confirm the public repository URL in `package.json` is exactly `git+https://github.com/Exnav29/n8n-nodes-scriptureflow.git`.
+- [ ] Confirm npm author metadata includes `Johnathan Lightfoot <johnathan@bulletproofautomations.com>` for Creator Portal contact lookup.
 - [ ] Confirm the package is MIT licensed, has no runtime dependencies, includes `n8n-community-node-package`, and documents the supported operations.
 - [ ] Review the outstanding npm audit findings in development tooling and decide whether release-blocking remediation is needed.
 
@@ -37,11 +38,11 @@ The verified-submission path must publish from the GitHub Actions workflow in `.
 
 The token bootstrap has been removed from the workflow. Future releases authenticate only through npm trusted publishing/OIDC. Do not publish locally.
 
-### 0.1.1 trusted publishing failure record
+### 0.1.1 trusted publishing retry record
 
 The `v0.1.1` GitHub Actions publish attempt reached `npm publish --provenance --access public --ignore-scripts`, built the tarball, and signed provenance, but npm rejected the final package write with an `E404` permission/not-found response for `n8n-nodes-scriptureflow@0.1.1`.
 
-Repository-side checks show the workflow uses a GitHub-hosted runner, has `contents: read` and `id-token: write`, uses Node.js 24, verifies npm 11.5.1 or later, does not use `NPM_TOKEN`, and publishes the unchanged package name `n8n-nodes-scriptureflow` at version `0.1.1`. If this happens again after the workflow diagnostics pass, verify the npm package Trusted Publisher settings and package-owner publishing permissions in npm.
+Repository-side checks show the workflow uses a GitHub-hosted runner, has `contents: read` and `id-token: write`, uses Node.js 24, verifies npm 11.5.1 or later, does not use `NPM_TOKEN`, and publishes the unchanged package name `n8n-nodes-scriptureflow`. After the workflow guard stopped treating generic `NODE_AUTH_TOKEN` presence as a legacy token path, `0.1.1` published successfully with provenance and the scanner passed.
 
 ### Final validation
 
@@ -52,14 +53,14 @@ Repository-side checks show the workflow uses a GitHub-hosted runner, has `conte
 - [ ] Run `npm pack --dry-run --ignore-scripts` and inspect every packaged file.
 - [ ] Confirm the five v1 actions and custom icon still pass local n8n verification.
 - [ ] Confirm there are no secrets, tokens, private URLs, credentials, runtime dependencies, or unexpected generated files.
-- [ ] Confirm the package version and release tag will match, for example package version `0.1.1` and tag `v0.1.1`.
+- [ ] Confirm the package version and release tag will match, for example package version `0.1.2` and tag `v0.1.2`.
 
 ## Publish
 
 - [ ] Merge all approved release-preparation changes to `main`.
-- [ ] Create an annotated release tag from the exact approved `main` commit, for example `git tag -a v0.1.1 -m "Release v0.1.1"`.
+- [ ] Create an annotated release tag from the exact approved `main` commit, for example `git tag -a v0.1.2 -m "Release v0.1.2"`.
 - [ ] Recheck the tag target before pushing it.
-- [ ] Push only the intended tag, for example `git push origin v0.1.1`.
+- [ ] Push only the intended tag, for example `git push origin v0.1.2`.
 - [ ] Watch the **Publish to npm with provenance** GitHub Actions run.
 - [ ] Confirm dependency installation, lint, build, and package preview pass before the publish step.
 - [ ] Confirm `npm publish --provenance --access public --ignore-scripts` succeeds through trusted publishing/OIDC.
