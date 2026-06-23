@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Exnav29/n8n-nodes-scriptureflow.git"
+    "url": "git+https://github.com/Exnav29/n8n-nodes-scriptureflow.git"
   },
   "homepage": "https://github.com/Exnav29/n8n-nodes-scriptureflow#readme",
   "bugs": {
