@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-scriptureflow",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Use ScriptureFlow in n8n workflows to discover translations and retrieve attributed Scripture from the public API.",
   "license": "MIT",
   "keywords": [

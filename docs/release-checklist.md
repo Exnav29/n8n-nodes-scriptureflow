@@ -1,6 +1,6 @@
 # ScriptureFlow n8n Node Release Checklist
 
-This checklist prepares controlled npm releases of `n8n-nodes-scriptureflow`. Version `0.1.1` is published, and version `0.1.2` is prepared to add npm author email metadata for n8n Creator Portal submission. The package has not been approved through the n8n Creator Portal and is not verified by n8n.
+This checklist prepares controlled npm releases of `n8n-nodes-scriptureflow`. Version `0.1.2` is published with npm author email metadata, and version `0.1.3` is prepared to add node picker description polish for n8n Creator Portal manual review. The package has not been approved through the n8n Creator Portal and is not verified by n8n.
 
 The verified-submission path must publish from the GitHub Actions workflow in `.github/workflows/publish.yml` with npm provenance. Do not use a local `npm publish` for that path.
 
@@ -13,6 +13,7 @@ The verified-submission path must publish from the GitHub Actions workflow in `.
 - [ ] Confirm the version in `package.json` is the intended release version and does not already exist in npm.
 - [ ] Confirm the public repository URL in `package.json` is exactly `git+https://github.com/Exnav29/n8n-nodes-scriptureflow.git`.
 - [ ] Confirm npm author metadata includes `Johnathan Lightfoot <johnathan@bulletproofautomations.com>` for Creator Portal contact lookup.
+- [ ] Confirm the node picker description is `Get multilingual Bible data from ScriptureFlow.`.
 - [ ] Confirm the package is MIT licensed, has no runtime dependencies, includes `n8n-community-node-package`, and documents the supported operations.
 - [ ] Review the outstanding npm audit findings in development tooling and decide whether release-blocking remediation is needed.
 
@@ -53,14 +54,14 @@ Repository-side checks show the workflow uses a GitHub-hosted runner, has `conte
 - [ ] Run `npm pack --dry-run --ignore-scripts` and inspect every packaged file.
 - [ ] Confirm the five v1 actions and custom icon still pass local n8n verification.
 - [ ] Confirm there are no secrets, tokens, private URLs, credentials, runtime dependencies, or unexpected generated files.
-- [ ] Confirm the package version and release tag will match, for example package version `0.1.2` and tag `v0.1.2`.
+- [ ] Confirm the package version and release tag will match, for example package version `0.1.3` and tag `v0.1.3`.
 
 ## Publish
 
 - [ ] Merge all approved release-preparation changes to `main`.
-- [ ] Create an annotated release tag from the exact approved `main` commit, for example `git tag -a v0.1.2 -m "Release v0.1.2"`.
+- [ ] Create an annotated release tag from the exact approved `main` commit, for example `git tag -a v0.1.3 -m "Release v0.1.3"`.
 - [ ] Recheck the tag target before pushing it.
-- [ ] Push only the intended tag, for example `git push origin v0.1.2`.
+- [ ] Push only the intended tag, for example `git push origin v0.1.3`.
 - [ ] Watch the **Publish to npm with provenance** GitHub Actions run.
 - [ ] Confirm dependency installation, lint, build, and package preview pass before the publish step.
 - [ ] Confirm `npm publish --provenance --access public --ignore-scripts` succeeds through trusted publishing/OIDC.
@@ -76,6 +77,7 @@ Pushing a matching `v*.*.*` tag is the action that starts the publish workflow. 
 - [ ] Open the npm package page and confirm the expected version, README, MIT license, repository link, keywords, files, and provenance attestation.
 - [ ] Confirm npm trusted publishing remains configured for future releases.
 - [ ] Install the published package in a clean local/self-hosted n8n environment and repeat the five-operation smoke test.
+- [ ] Confirm the n8n node picker shows the short description `Get multilingual Bible data from ScriptureFlow.`.
 - [ ] Run `npx @n8n/scan-community-package n8n-nodes-scriptureflow` against the published package and review every finding.
 - [ ] Address scanner or package metadata findings before requesting verification.
 - [ ] Prepare the n8n Creator Portal submission only after the npm package and provenance are confirmed.

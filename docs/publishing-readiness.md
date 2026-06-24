@@ -3,7 +3,7 @@
 ## Current state
 
 - Package status: narrowed v1 development surface
-- npm status: `n8n-nodes-scriptureflow@0.1.1` published with provenance and scanner pass; `0.1.2` is prepared to add npm author email metadata for Creator Portal submission
+- npm status: `n8n-nodes-scriptureflow@0.1.2` published after adding npm author email metadata; `0.1.3` is prepared to add node picker description polish for Creator Portal manual review
 - n8n verification status: not submitted and not verified
 - Credentials: not required for the public preview
 - Runtime dependencies: none
@@ -16,7 +16,7 @@ The first tag workflow attempt stopped before publication because npm invoked `p
 
 The first `v0.1.1` trusted publishing attempt reached the final `npm publish --provenance --access public --ignore-scripts` step, generated the tarball, and signed provenance, then npm rejected the package write with `E404` for `n8n-nodes-scriptureflow@0.1.1`. After the workflow guard was narrowed to avoid blocking `NODE_AUTH_TOKEN`, `0.1.1` published successfully with provenance and the n8n community package scanner passed.
 
-Version `0.1.2` is prepared only to add npm author email metadata for the n8n Creator Portal package URL check. After merge and tag, publish `0.1.2` through GitHub Actions with provenance and rerun the scanner.
+Version `0.1.2` added npm author email metadata for the n8n Creator Portal package URL check. Version `0.1.3` is prepared only to add the node picker short description for Creator Portal manual review. After merge and tag, publish `0.1.3` through GitHub Actions with provenance, rerun the scanner, and confirm the description appears in a clean n8n install.
 
 ## Required before the next publication
 
@@ -67,7 +67,7 @@ Version `0.1.2` is prepared only to add npm author email metadata for the n8n Cr
 - The local `n8n-local-dev` instance recognized the mounted `CUSTOM.scriptureflow` node and successfully executed an inactive smoke-test workflow containing all five v1 operations. No production or existing workflow was modified.
 - Clean n8n install and five-operation smoke testing passed for the published package.
 - The custom SVG is built and deployed with an exact `file:scriptureflow.svg` reference. Its blue-and-gold branding was manually confirmed in both the authenticated node picker and workflow canvas.
-- Registry lookup confirms `n8n-nodes-scriptureflow@0.1.1` is published with the `latest` dist-tag before the `0.1.2` metadata release.
+- Registry lookup confirms `n8n-nodes-scriptureflow@0.1.2` is published with the `latest` dist-tag before the `0.1.3` polish release.
 
 ## Manual local verification record
 
@@ -79,4 +79,4 @@ Manual local verification passed on 2026-06-22 at `http://localhost:5678`.
 - Get Verse returned raw attributed ScriptureFlow JSON for `en-lsv`, John 3:16, including `ok: true`, `type: "verse_lookup"`, `version: "en-lsv"`, and `reference: "John 3:16"`.
 - An invalid `en-lsb` Version Key produced `ScriptureFlow API request failed` and directed the user to `https://scriptureflow-api-preview.pages.dev/translations.json`.
 
-These results cover local development and clean-install smoke testing. npm publication of `0.1.1` is complete, and the npm community package scanner passed. n8n verification and Creator Portal submission remain incomplete or deferred as described above. Future publishing uses trusted publishing/OIDC, and the 18 transitive development-tool audit findings remain a release review item.
+These results cover local development and clean-install smoke testing. npm publication of `0.1.2` is complete, and the npm community package scanner passed for the previous release. n8n verification and Creator Portal submission remain incomplete or deferred as described above. Future publishing uses trusted publishing/OIDC, and the 18 transitive development-tool audit findings remain a release review item.
