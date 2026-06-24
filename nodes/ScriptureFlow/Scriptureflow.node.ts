@@ -145,7 +145,7 @@ export class Scriptureflow implements INodeType {
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-		description: 'Retrieve translation catalogs and Scripture from ScriptureFlow',
+		description: 'Get multilingual Bible data from ScriptureFlow.',
 		defaults: {
 			name: 'ScriptureFlow',
 		},
